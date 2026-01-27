@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eagles Anchorpoint™ – The Universal Platform Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Courier+Prime:wght@400;700&display=swap');
+
+  /* --- CORE VARIABLES --- */
+  :root {
+    --primary: #0a0e27;
+    --secondary: #1a1f3a;
+    --tertiary: #252d4a;
+    --accent: #00d4ff;
+    --accent-warm: #ff6b35;
+    --accent-gold: #ffd700;
+    --text-primary: #f0f4f8;
+    --text-secondary: #a0a9b8;
+    --success: #00d084;
+    --danger: #ff4757;
+    --border: rgba(0, 212, 255, 0.2);
+  }
+
+  * { box-sizing: border-box; }
+  html { 
+    scroll-behavior: smooth; 
+    font-family: 'Courier Prime', monospace;
+  }
+  body { 
+    margin: 0; 
+    padding: 0;
+    background: var(--primary); 
+    color: var(--text-primary); 
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* --- HEADER/NAV --- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(10, 14, 39, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+  }
+
+  header > div {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-warm));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-sub {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  nav a, nav button {
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-family: 'Courier Prime', monospace;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  nav a:hover, nav button:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+
+  .nav-btn-primary {
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+
+  .nav-btn-primary:hover {
+    background: var(--accent);
+    color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+  }
+
+  /* --- HERO --- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 212, 255, 0.02) 0px,
+        rgba(0, 212, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+    pointer-events: none;
+    animation: scanlines 8s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(10px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+  }
+
+  .hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--accent), var(--accent-warm), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInDown 1s ease-out;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero .tagline {
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 1.5rem 0 0 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    animation: fadeInUp 1s ease-out 0.2s both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 2rem 0;
+    line-height: 1.8;
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.8s both;
+  }
+
+  .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    z-index: -1;
+    transition: left 0.3s;
+  }
+
+  .btn:hover::before {
+    left: 0;
+  }
+
+  .btn:hover {
+    color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+  }
+
+  .btn-secondary {
+    border-color: var(--accent-warm);
+    color: var(--accent-warm);
+  }
+
+  .btn-secondary::before {
+    background: var(--accent-warm);
+  }
+
+  .btn-secondary:hover {
+    color: var(--primary);
+  }
+
+  /* --- SECTIONS --- */
+  section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent-warm));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 1rem 0 2rem 0;
+    line-height: 1.8;
+    max-width: 900px;
+  }
+
+  /* --- ARCHITECTURE GRID --- */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .arch-card {
+    background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .arch-card:hover::before {
+    left: 100%;
+  }
+
+  .arch-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    transform: translateY(-5px);
+  }
+
+  .arch-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--accent);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .arch-card p {
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .arch-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  /* --- PLATFORMS SHOWCASE --- */
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .platform-card {
+    background: rgba(26, 31, 58, 0.6);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .platform-card:hover {
+    border-color: var(--accent);
+    background: rgba(26, 31, 58, 1);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    transform: scale(1.05);
+  }
+
+  .platform-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .platform-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .platform-status {
+    font-size: 0.75rem;
+    color: var(--success);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+    font-weight: 700;
+  }
+
+  /* --- FEATURES LIST --- */
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+  }
+
+  .features-list li {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: rgba(0, 212, 255, 0.05);
+    border-left: 3px solid var(--accent);
+    color: var(--text-primary);
+    transition: all 0.3s;
+  }
+
+  .features-list li:hover {
+    background: rgba(0, 212, 255, 0.1);
+    padding-left: 1.5rem;
+  }
+
+  .features-list li::before {
+    content: '> ';
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* --- PRICING TABLE --- */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    border: 1px solid var(--border);
+    background: rgba(26, 31, 58, 0.5);
+  }
+
+  .pricing-table th {
+    background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+    color: var(--accent);
+    padding: 1.5rem;
+    text-align: left;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .pricing-table td {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .pricing-table tr:hover {
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  .price-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* --- MODAL --- */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 2000;
+  }
+
+  .modal.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .modal-content {
+    background: var(--secondary);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .modal-close:hover {
+    color: var(--accent-warm);
+    transform: rotate(90deg);
+  }
+
+  .modal h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 1rem 0;
+  }
+
+  .modal p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 1rem 0;
+  }
+
+  /* --- CODE BLOCK --- */
+  .code-block {
+    background: rgba(10, 14, 39, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .code-block code {
+    color: var(--accent);
+  }
+
+  .code-block .keyword {
+    color: var(--accent-warm);
+  }
+
+  .code-block .string {
+    color: var(--success);
+  }
+
+  /* --- FOOTER --- */
+  footer {
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  footer p {
+    margin: 0.5rem 0;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-divider {
+    color: var(--accent);
+    margin: 0 0.5rem;
+  }
+
+  /* --- STICKY BANNER --- */
+  .sticky-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-warm));
+    color: var(--primary);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+    z-index: 1500;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+  }
+
+  .sticky-banner:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(0, 212, 255, 0.6);
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .stat-number { font-size: 1.8rem; }
+    nav { flex-wrap: wrap; gap: 0.5rem; }
+    h2 { font-size: 1.8rem; }
+    section { padding: 3rem 1rem; }
+    .modal-content { padding: 2rem; }
+    .sticky-banner { bottom: 10px; right: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div>
+      <div class="logo">EAGLES ANCHORPOINT™</div>
+      <div class="logo-sub">Universal Platform Orchestration Engine</div>
+    </div>
+    <nav>
+      <a href="#architecture">Architecture</a>
+      <a href="#platforms">Platforms</a>
+      <a href="#scale">Scale</a>
+      <a href="#pricing">Pricing</a>
+      <button class="nav-btn-primary" onclick="openModal('launch')">Launch Platform</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Eagles Anchorpoint™</h1>
+    <div class="tagline">One Architecture. Thousands of Platforms. Infinite Configurations.</div>
+    <p class="hero-description">The universal orchestration engine that powers unlimited client platforms globally. Stop rebuilding. Start launching. One core system. One GitHub account. Unlimited industries. Unlimited scalability.</p>
+    
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">∞</span>
+        <span class="stat-label">Client Configurations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">1</span>
+        <span class="stat-label">Codebase</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">1</span>
+        <span class="stat-label">GitHub Repository</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Duplication</span>
+      </div>
+    </div>
+
+    <div class="hero-buttons">
+      <button class="btn" onclick="scrollToSection('architecture')">View Architecture</button>
+      <button class="btn btn-secondary" onclick="openModal('quickstart')">Quick Start</button>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE SECTION -->
+<section id="architecture">
+  <h2>Core Architecture</h2>
+  <p class="section-description">Eagles Anchorpoint™ is not a platform—it's the orchestration layer that launches platforms. Every client, every industry, every configuration runs on the same architectural foundation.</p>
+
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="icon">🏛️</div>
+      <h3>Single Codebase</h3>
+      <p>One repository serves infinite clients. No code duplication. No branching. Pure configuration-driven architecture.</p>
+    </div>
+
+    <div class="arch-card">
+      <div class="icon">⚙️</div>
+      <h3>Configuration Layer</h3>
+      <p>Clients are not projects—they're structured configurations. Change variables, not code. Deploy instantly.</p>
+    </div>
+
+    <div class="arch-card">
+      <div class="icon">🌐</div>
+      <h3>Universal Router</h3>
+      <p>Dynamic routing system. Query parameters. JSON configs. URL-driven instantiation. Every site launches from the same engine.</p>
+    </div>
+
+    <div class="arch-card">
+      <div class="icon">📦</div>
+      <h3>Template Engine</h3>
+      <p>Reusable templates for every industry. Landing pages. SaaS. Agencies. E-commerce. All from one system.</p>
+    </div>
+
+    <div class="arch-card">
+      <div class="icon">🔄</div>
+      <h3>Dynamic Theming</h3>
+      <p>CSS variables. Color systems. Typography stacks. Brand identity injected at runtime. Zero design duplication.</p>
+    </div>
+
+    <div class="arch-card">
+      <div class="icon">🚀</div>
+      <h3>Instant Deployment</h3>
+      <p>GitHub Pages. Custom domains. Automated pipeline. Deploy 100 clients in seconds. Update all simultaneously.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS SECTION -->
+<section id="platforms">
+  <h2>Powered Platforms</h2>
+  <p class="section-description">Eagles Anchorpoint™ orchestrates entire ecosystems of platforms. All running on one architecture. All sharing one codebase. All serving different industries.</p>
+
+  <div class="platforms-grid">
+    <div class="platform-card" onclick="openModal('4everjonas')">
+      <div class="platform-name">4Everjonas™</div>
+      <p class="platform-desc">Multi-client web agency platform with unlimited scaling</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+
+    <div class="platform-card" onclick="openModal('enterprise')">
+      <div class="platform-name">Enterprise Web Engine™</div>
+      <p class="platform-desc">Professional service delivery and client management</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+
+    <div class="platform-card" onclick="openModal('saas')">
+      <div class="platform-name">SaaS Launcher</div>
+      <p class="platform-desc">Software-as-a-service platform builder and deployment</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+
+    <div class="platform-card" onclick="openModal('agencies')">
+      <div class="platform-name">Agency OS</div>
+      <p class="platform-desc">Complete agency operations and client management system</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+
+    <div class="platform-card" onclick="openModal('ecommerce')">
+      <div class="platform-name">Commerce Platform</div>
+      <p class="platform-desc">E-commerce and retail site generation engine</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+
+    <div class="platform-card" onclick="openModal('consulting')">
+      <div class="platform-name">Consulting Hub</div>
+      <p class="platform-desc">Professional services and consulting platform framework</p>
+      <div class="platform-status">✓ Active</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCALE SECTION -->
+<section id="scale">
+  <h2>How It Scales to Thousands</h2>
+  <p class="section-description">Eagles Anchorpoint™ handles infinite complexity through elegant architectural simplicity.</p>
+
+  <h3 style="color: var(--accent); margin-top: 2rem;">The System</h3>
+  <ul class="features-list">
+    <li>One index.html - serves all platforms</li>
+    <li>One configuration layer - defines each client</li>
+    <li>One routing engine - launches correct platform</li>
+    <li>One GitHub repository - single source of truth</li>
+  
